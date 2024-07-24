@@ -1,0 +1,8 @@
+/.venv
+/2.12
+/animal-image-classification-dataset.zip
+/Animals
+/Animals_splitted
+/models
+/model_ft_pretrained_full.pth
+/validation
