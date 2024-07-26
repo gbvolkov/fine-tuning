@@ -1,0 +1,9 @@
+datasets
+evaluate
+transformers[torch]
+transformers
+rouge-score
+nltk
+ipywidgets
+accelerate
+peft
