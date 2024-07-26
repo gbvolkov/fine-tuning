@@ -84,14 +84,14 @@ def set_model_forward(model, prompt_embeddings, num_virtual_tokens):
         # If we have input_ids, convert them to embeddings
         if input_ids is not None:
             batch_size = input_ids.shape[0]
-            inputs_embeds = self.encoder.embed_tokens(input_ids)
-            prompt_embeds = prompt_embeddings.weight.repeat(batch_size, 1, 1)
-            inputs_embeds = torch.cat([prompt_embeds, inputs_embeds], dim=1)
+            #inputs_embeds = self.encoder.embed_tokens(input_ids)
+            #prompt_embeds = prompt_embeddings.weight.repeat(batch_size, 1, 1)
+            #inputs_embeds = torch.cat([prompt_embeds, inputs_embeds], dsim=1)
             
             if attention_mask is not None:
                 attention_mask = torch.cat([torch.ones(batch_size, num_virtual_tokens).to(self.device), attention_mask], dim=1)
             
-            return original_forward(inputs_embeds=inputs_embeds, attention_mask=attention_mask,
+            return original_forward(input_ids=input_ids, attention_mask=attention_mask,
                                     decoder_input_ids=decoder_input_ids, 
                                     decoder_attention_mask=decoder_attention_mask,
                                     labels=labels, **kwargs)
@@ -146,9 +146,9 @@ def setup_trainder(model, tokenized_datasets, tokenizer, metric):
     model_name = MODEL.split("/")[-1]
     args = Seq2SeqTrainingArguments(
         f"{model_name}-prompt-tuned-xsum",
-        evaluation_strategy="epoch",
+        evaluation_strategy="steps",
         save_strategy="steps",  # Save checkpoints based on number of steps
-        save_steps=50,  # Save a checkpoint every 1000 steps
+        save_steps=500,  # Save a checkpoint every 1000 steps
         learning_rate=1e-3,  # Higher learning rate for prompt-tuning
         per_device_train_batch_size=batch_size,
         per_device_eval_batch_size=batch_size,
