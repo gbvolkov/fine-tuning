@@ -6,3 +6,6 @@
 /models
 /model_ft_pretrained_full.pth
 /validation
+/t5-small-finetuned-xsum-lora
+/t5-small-prompt-tuned-xsum
+/t5-small-finetuned-xsum
